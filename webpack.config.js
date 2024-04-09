@@ -9,7 +9,7 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     clean: true,
   },
-  devtool: 'sourse-map',
+  devtool: 'source-map',
   plugins: [
     new HTMLPlugin({
       template: 'public/index.html',
@@ -19,8 +19,22 @@ module.exports = {
         from: 'public',
         globOptions: {
           ignore: ['**/index.html'],
-        },
-      }]
+        }
+      }],
     }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          },
+        },
+      },
+    ]
+  }
 };
