@@ -1,6 +1,5 @@
-import { createElement } from '../render';
-import { createTripEventsTemplate } from '../template/trip-events-template';
-
+import { createElement } from '../render.js';
+import {createTripEventsTemplate} from '../template/trip-events-template.js';
 
 export default class TripEventsView {
   getTemplate() {

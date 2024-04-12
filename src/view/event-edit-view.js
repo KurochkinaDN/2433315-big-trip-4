@@ -1,9 +1,21 @@
-import { createElement } from '../render';
-import { createEventEditTemplate } from '../template/event-edit-template';
+import { POINT_EMPTY } from '../const.js';
+import { createElement } from '../render.js';
+import { createEventEditTemplate } from '../template/event-edit-template.js';
+
 
 export default class EventEditView {
+  constructor({event = POINT_EMPTY, eventDestination, eventOffers}) {
+    this.event = event;
+    this.eventDestination = eventDestination;
+    this.eventOffers = eventOffers;
+  }
+
   getTemplate() {
-    return createEventEditTemplate();
+    return createEventEditTemplate({
+      event: this.event,
+      eventDestination: this.eventDestination,
+      eventOffers: this.eventOffers
+    });
   }
 
   getElement() {
