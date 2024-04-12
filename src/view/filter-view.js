@@ -1,5 +1,5 @@
-import { createElement } from '../render';
-import { createFilterTemplate } from '../template/filter-template';
+import { createElement } from '../render.js';
+import {createFilterTemplate} from '../template/filter-template.js';
 
 export default class FilterView {
   getTemplate() {

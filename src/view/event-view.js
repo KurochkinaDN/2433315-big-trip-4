@@ -1,10 +1,19 @@
-import { createElement } from '../render';
-import { createEventTemplate } from '../template/event-template';
-
+import { createElement } from '../render.js';
+import { createEventTemplate } from '../template/event-template.js';
 
 export default class EventView {
+  constructor({event, eventDestination, eventOffers}) {
+    this.event = event;
+    this.eventDestination = eventDestination;
+    this.eventOffers = eventOffers;
+  }
+
   getTemplate() {
-    return createEventTemplate();
+    return createEventTemplate({
+      event: this.event,
+      eventDestination: this.eventDestination,
+      eventOffers: this.eventOffers
+    });
   }
 
   getElement() {
