@@ -48,5 +48,12 @@ const Duration = {
   MIN: 59
 };
 
-export {EVENT_COUNT, DESTINATION_COUNT, DEFAULT_TYPE, TYPES, TITLES, DESCRIPTION, CITIES, Price, POINT_EMPTY, MIN_IN_HOUR, MSEC_IN_DAY, Duration, MSEC_IN_HOUR};
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past',
+};
+
+export {EVENT_COUNT, DESTINATION_COUNT, DEFAULT_TYPE, TYPES, TITLES, DESCRIPTION, CITIES, Price, POINT_EMPTY, MIN_IN_HOUR, MSEC_IN_DAY, Duration, MSEC_IN_HOUR, FilterType};
 
