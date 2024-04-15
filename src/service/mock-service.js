@@ -6,18 +6,22 @@ import { EVENT_COUNT, TYPES } from '../const.js';
 
 
 export default class MockService {
+  #destinations = null;
+  #offers = null;
+  #events = null;
+
   constructor() {
-    this.destinations = mockDestinations;
-    this.offers = mockOffers;
-    this.events = this.generateEvents();
+    this.#destinations = mockDestinations;
+    this.#offers = mockOffers;
+    this.#events = this.#generateEvents();
   }
 
-  generateEvents() {
+  #generateEvents() {
     return Array.from({length: EVENT_COUNT}, () => {
       const type = getRandomArrayElement(TYPES);
-      const destination = getRandomArrayElement(this.destinations);
+      const destination = getRandomArrayElement(this.#destinations);
       const destinationIDs = destination.id;
-      const offersByType = this.offers.find((offerByType) => offerByType.type === type);
+      const offersByType = this.#offers.find((offerByType) => offerByType.type === type);
       const offersIDs = [];
       offersByType.offers.forEach((offer) => {
         if (getRandomInteger(0, 1)) {
@@ -28,15 +32,15 @@ export default class MockService {
     });
   }
 
-  getDestinations() {
-    return this.destinations;
+  get destinations() {
+    return this.#destinations;
   }
 
-  getOffers() {
-    return this.offers;
+  get offers() {
+    return this.#offers;
   }
 
-  getEvents() {
-    return this.events;
+  get events() {
+    return this.#events;
   }
 }
