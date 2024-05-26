@@ -1,4 +1,4 @@
-const EVENT_COUNT = 5;
+const EVENT_COUNT = 7;
 const DESTINATION_COUNT = 3;
 const DEFAULT_TYPE = 'flight';
 const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
@@ -24,7 +24,7 @@ const Price = {
   MIN: 1000
 };
 
-const POINT_EMPTY = {
+const EVENT_EMPTY = {
   basePrice: 0,
   dateFrom: null,
   dateTo: null,
@@ -60,5 +60,5 @@ const FilterType = {
   PAST: 'past',
 };
 
-export {EVENT_COUNT, Mode, FilterType, DESTINATION_COUNT, DEFAULT_TYPE, TYPES, TITLES, DESCRIPTION, CITIES, Price, POINT_EMPTY, MIN_IN_HOUR, MSEC_IN_DAY, Duration, MSEC_IN_HOUR};
+export {EVENT_COUNT, Mode, FilterType, DESTINATION_COUNT, DEFAULT_TYPE, TYPES, TITLES, DESCRIPTION, CITIES, Price, EVENT_EMPTY, MIN_IN_HOUR, MSEC_IN_DAY, Duration, MSEC_IN_HOUR};
 
