@@ -41,6 +41,9 @@ function createEventPhotoTemplate(pictures) {
 
 function createEventEditTemplate({event, eventDestination, eventOffers}) {
   const { type, offers, dateFrom, dateTo, price } = event;
+  const nameDestination = (eventDestination) ? eventDestination.name : '';
+  const currentOffers = eventOffers.find((offer) => offer.type === type);
+  const currentDestination = eventDestination.find((destination) => destination.id === event.destination);
   return `
     <li class="trip-events__item">
       <form class="event event--edit" action="#" method="post">
@@ -64,7 +67,7 @@ function createEventEditTemplate({event, eventDestination, eventOffers}) {
             <label class="event__label  event__type-output" for="event-destination-1">
               ${type}
             </label>
-            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${eventDestination.name}" list="destination-list-1">
+            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${nameDestination}" list="destination-list-1">
             ${createEventDestinationListTemplate()}
           </div>
 
@@ -89,17 +92,16 @@ function createEventEditTemplate({event, eventDestination, eventOffers}) {
           <button class="event__rollup-btn" type="button">
         </header>
         <section class="event__details">
-          <section class="event__section  event__section--offers">
+        ${(currentOffers.offers.length !== 0) ? `<section class="event__section  event__section--offers">
             <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-            ${createEventOfferTemplate(eventOffers.offers, offers)}
-          </section>
+            ${createEventOfferTemplate(currentOffers.offers, offers)}
+          </section>` : ''}
 
-          <section class="event__section  event__section--destination">
+          ${(currentDestination) ? `<section class="event__section  event__section--destination">
             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-            <p class="event__destination-description">${eventDestination.description}</p>
-
-            ${createEventPhotoTemplate(eventDestination.pictures)}
-          </section>
+            <p class="event__destination-description">${currentDestination.description}</p>
+            ${createEventPhotoTemplate(currentDestination.pictures)}
+          </section>` : ''}
         </section>
       </form>
     </li>`;

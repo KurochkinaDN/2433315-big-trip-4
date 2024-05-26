@@ -14,6 +14,7 @@ function createCheckedOffersElement(offers, checkedOffers) {
 function createEventTemplate({event, eventDestination, eventOffers}) {
   const { type, offers, dateFrom, dateTo, price, isFavorite } = event;
   const favoriteClassName = isFavorite ? 'event__favorite-btn--active' : '';
+  const nameDestination = (eventDestination) ? eventDestination.name : '';
   return `
     <li class="trip-events__item">
       <div class="event">
@@ -21,7 +22,7 @@ function createEventTemplate({event, eventDestination, eventOffers}) {
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
         </div>
-        <h3 class="event__title">${firstLetterToUpperCase(type)} ${eventDestination.name}</h3>
+        <h3 class="event__title">${firstLetterToUpperCase(type)} ${nameDestination}</h3>
         <div class="event__schedule">
           <p class="event__time">
             <time class="event__start-time" datetime="${formatStringToDateTime(dateFrom)}">${formatStringToTime(dateFrom)}</time>
