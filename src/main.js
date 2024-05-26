@@ -1,11 +1,12 @@
 import FilterView from './view/filter-view.js';
 import TripInfoView from './view/trip-info-view.js';
 import {render, RenderPosition} from './framework/render.js';
-import RoutePresenter from './presenter/route-presenter.js';
+import RoutePresenter from './presenter/trip-presenter.js';
 import DestinationsModel from './model/destinations-model.js';
 import EventsModel from './model/events-model.js';
 import OffersModel from './model/offers-model.js';
 import MockService from './service/mock-service.js';
+import { generateFilters } from './mock/filter.js';
 
 
 const tripMainContainer = document.querySelector('.trip-main');
@@ -16,15 +17,16 @@ const mockService = new MockService();
 const destinationsModel = new DestinationsModel(mockService);
 const offersModel = new OffersModel(mockService);
 const eventsModel = new EventsModel(mockService);
+const filters = generateFilters(eventsModel.get());
 
 const routePresenter = new RoutePresenter({
-  container: tripEventsContainer,
+  tripContainer: tripEventsContainer,
   destinationsModel,
   offersModel,
   eventsModel
 });
 
 render(new TripInfoView(), tripMainContainer, RenderPosition.AFTERBEGIN);
-render(new FilterView(), filterContainer);
+render(new FilterView({filters}), filterContainer);
 
 routePresenter.init();

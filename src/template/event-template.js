@@ -1,4 +1,5 @@
-import { formatStringToDateTime, formatStringToShortDate, formatStringToTime, firstLetterToUpperCase, getPointDuration } from '../utils.js';
+import { formatStringToDateTime, formatStringToShortDate, formatStringToTime, getPointDuration } from '../utils/event.js';
+import { firstLetterToUpperCase } from '../utils/common.js';
 
 function createCheckedOffersElement(offers, checkedOffers) {
   const offerItem = offers.map((offer) => checkedOffers.includes(offer.id) ? `
