@@ -48,6 +48,7 @@ const Duration = {
   MIN: 59
 };
 
+
 const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
@@ -61,4 +62,5 @@ const FilterType = {
 };
 
 export {EVENT_COUNT, Mode, FilterType, DESTINATION_COUNT, DEFAULT_TYPE, TYPES, TITLES, DESCRIPTION, CITIES, Price, POINT_EMPTY, MIN_IN_HOUR, MSEC_IN_DAY, Duration, MSEC_IN_HOUR};
+
 
