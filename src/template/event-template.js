@@ -1,4 +1,4 @@
-import { formatStringToDateTime, formatStringToShortDate, formatStringToTime, getPointDuration } from '../utils/event.js';
+import { formatStringToDateTime, formatStringToShortDate, formatStringToTime, getEventDuration } from '../utils/event.js';
 import { firstLetterToUpperCase } from '../utils/common.js';
 
 function createCheckedOffersElement(offers, checkedOffers) {
@@ -29,7 +29,7 @@ function createEventTemplate({event, eventDestination, eventOffers}) {
             &mdash;
             <time class="event__end-time" datetime="${formatStringToDateTime(dateTo)}">${formatStringToTime(dateTo)}</time>
           </p>
-          <p class="event__duration">${getPointDuration(dateFrom, dateTo)}</p>
+          <p class="event__duration">${getEventDuration(dateFrom, dateTo)}</p>
         </div>
         <p class="event__price">
           &euro;&nbsp;<span class="event__price-value">${price}</span>

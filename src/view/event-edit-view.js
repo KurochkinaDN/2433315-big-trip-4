@@ -1,23 +1,28 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { EVENT_EMPTY } from '../const.js';
 import { createEventEditTemplate } from '../template/event-edit-template.js';
+import { EditType } from '../const.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
 export default class EventEditView extends AbstractStatefulView {
   #eventDestination = null;
   #eventOffers = null;
-  #onEditSubmit = null;
-  #onRollupClick = null;
+  #handleEditSubmit = null;
+  #handleEditReset = null;
+  #handleRollupClick = null;
   #datepickerFrom = null;
   #datepickerTo = null;
+  #eventType;
 
-  constructor({event = EVENT_EMPTY, eventDestination, eventOffers, onEditSubmit, onRollupClick }) {
+  constructor({event = EVENT_EMPTY, eventDestination, eventOffers, onEditSubmit, onEditReset, onRollupClick, eventType = EditType.EDITING}) {
     super();
     this.#eventDestination = eventDestination;
     this.#eventOffers = eventOffers;
-    this.#onEditSubmit = onEditSubmit;
-    this.#onRollupClick = onRollupClick;
+    this.#handleEditSubmit = onEditSubmit;
+    this.#handleEditReset = onEditReset;
+    this.#handleRollupClick = onRollupClick;
+    this.#eventType = eventType;
 
     this._setState(EventEditView.parseEventToState(event));
     this._restoreHandlers();
@@ -27,7 +32,8 @@ export default class EventEditView extends AbstractStatefulView {
     return createEventEditTemplate({
       event: this._state,
       eventDestination: this.#eventDestination,
-      eventOffers: this.#eventOffers
+      eventOffers: this.#eventOffers,
+      eventType: this.#eventType
     });
   }
 
@@ -54,8 +60,16 @@ export default class EventEditView extends AbstractStatefulView {
   _restoreHandlers() {
     this.element.querySelector('.event--edit')
       .addEventListener('submit', this.#editSubmitHandler);
-    this.element.querySelector('.event__rollup-btn')
-      .addEventListener('click', this.#rollupClickHandler);
+    if (this.#eventType === EditType.EDITING) {
+      this.element.querySelector('.event__rollup-btn')
+        .addEventListener('click', this.#rollupClickHandler);
+      this.element.querySelector('.event--edit')
+        .addEventListener('reset', this.#editResetHandler);
+    }
+    if (this.#eventType === EditType.CREATING) {
+      this.element.querySelector('.event__reset-btn')
+        .addEventListener('click', this.#editResetHandler);
+    }
     this.element.querySelector('.event__type-group')
       .addEventListener('change', this.#typeChangeHandler);
     this.element.querySelector('.event__available-offers')
@@ -64,7 +78,6 @@ export default class EventEditView extends AbstractStatefulView {
       .addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelector('.event__input--price')
       .addEventListener('change', this.#priceChangeHandler);
-
     this.#setDatepickers();
   }
 
@@ -120,12 +133,17 @@ export default class EventEditView extends AbstractStatefulView {
 
   #editSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#onEditSubmit(EventEditView.parseStateToEvent(this._state));
+    this.#handleEditSubmit(EventEditView.parseStateToEvent(this._state));
+  };
+
+  #editResetHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditReset(EventEditView.parseStateToEvent(this._state));
   };
 
   #rollupClickHandler = (evt) => {
     evt.preventDefault();
-    this.#onRollupClick();
+    this.#handleRollupClick();
   };
 
   #typeChangeHandler = (evt) => {
@@ -151,6 +169,7 @@ export default class EventEditView extends AbstractStatefulView {
   };
 
   #priceChangeHandler = (evt) => {
+
     this._setState({
       ...this._state,
       price: evt.target.value,

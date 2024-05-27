@@ -1,11 +1,14 @@
 import AbstractView from '../framework/view/abstract-view.js';
-
-function createNoEventElement() {
-  return '<p class="trip-events__msg">Click New Event to create your first point</p>';
-}
-
+import {createNoEventTemplate} from '../template/no-event-template.js';
 export default class NoEventView extends AbstractView {
+  #filterType = null;
+
+  constructor({filterType}) {
+    super();
+    this.#filterType = filterType;
+  }
+
   get template() {
-    return createNoEventElement();
+    return createNoEventTemplate(this.#filterType);
   }
 }
