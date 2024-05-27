@@ -73,6 +73,7 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
 const UserAction = {
@@ -92,6 +93,11 @@ const ButtonLabel = {
   SAVE_DEFAULT: 'Save'
 };
 
-export {EVENT_COUNT, Mode, FilterType, DESTINATION_COUNT, DEFAULT_TYPE, TYPES, TITLES, DESCRIPTION, CITIES, Price, EVENT_EMPTY, MIN_IN_HOUR, MSEC_IN_DAY, Duration, MSEC_IN_HOUR, SortType, UpdateType, UserAction, EditType, ButtonLabel};
+const Method = {
+  GET: 'GET',
+  PUT: 'PUT',
+};
+
+export {EVENT_COUNT, Mode, FilterType, DESTINATION_COUNT, DEFAULT_TYPE, TYPES, TITLES, DESCRIPTION, CITIES, Price, EVENT_EMPTY, MIN_IN_HOUR, MSEC_IN_DAY, Duration, MSEC_IN_HOUR, SortType, UpdateType, UserAction, EditType, ButtonLabel, Method};
 
 
