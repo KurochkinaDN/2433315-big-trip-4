@@ -1,4 +1,4 @@
-import { TYPES, CITIES} from '../const.js';
+import { TYPES} from '../const.js';
 import { formatStringToDateTime} from '../utils/event.js';
 import { firstLetterToUpperCase, firstLetterToLowerCase, ButtonLabel, EditType } from '../utils/common.js';
 import he from 'he';
@@ -11,10 +11,10 @@ function createEventTypesListTemplate(currentType) {
     </div>`).join('');
 }
 
-function createEventDestinationListTemplate() {
+function createEventDestinationListTemplate(eventDestination) {
   return `
     <datalist id="destination-list-1">
-      ${CITIES.map((city) => `<option value="${city}"></option>`).join('')}
+    ${eventDestination.map((destination) => `<option value="${destination.name}"></option>`).join('')}
     </datalist>`;
 }
 
@@ -76,7 +76,7 @@ function createEventEditTemplate({event, eventDestination, eventOffers, eventTyp
               ${type}
             </label>
             <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${nameDestination}" list="destination-list-1">
-            ${he.encode(createEventDestinationListTemplate().toString())}
+            ${createEventDestinationListTemplate(eventDestination)}
           </div>
 
           <div class="event__field-group  event__field-group--time">
