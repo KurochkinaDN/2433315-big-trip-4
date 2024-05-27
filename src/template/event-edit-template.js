@@ -1,6 +1,7 @@
 import { TYPES, CITIES} from '../const.js';
 import { formatStringToDateTime} from '../utils/event.js';
 import { firstLetterToUpperCase, firstLetterToLowerCase, ButtonLabel, EditType } from '../utils/common.js';
+import he from 'he';
 
 function createEventTypesListTemplate(currentType) {
   return TYPES.map((type) =>
@@ -75,7 +76,7 @@ function createEventEditTemplate({event, eventDestination, eventOffers, eventTyp
               ${type}
             </label>
             <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${nameDestination}" list="destination-list-1">
-            ${createEventDestinationListTemplate()}
+            ${he.encode(createEventDestinationListTemplate().toString())}
           </div>
 
           <div class="event__field-group  event__field-group--time">
@@ -92,7 +93,7 @@ function createEventEditTemplate({event, eventDestination, eventOffers, eventTyp
               &euro;
             </label>
             ${createEventDestinationListTemplate()}
-            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${(price)}">
+            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${he.encode(price.toString())}">
           </div>
 
           <button class="event__save-btn  btn  btn--blue" type="submit">${ButtonLabel.SAVE_DEFAULT}</button>
