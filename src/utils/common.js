@@ -22,9 +22,23 @@ function updateItem(items, update) {
   return items.map((item) => item.id === update.id ? update : item);
 }
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const EditType = {
+  EDITING: 'EDITING',
+  CREATING: 'CREATING'
+};
+
+const ButtonLabel = {
+  CANCEL_DEFAULT: 'Cancel',
+  DELETE_DEFAULT: 'Delete',
+  SAVE_DEFAULT: 'Save'
+};
+
 export {
   getRandomInteger,
   getRandomArrayElement,
   firstLetterToUpperCase,
   firstLetterToLowerCase,
-  updateItem};
+  updateItem,
+  isEscapeKey, EditType, ButtonLabel};

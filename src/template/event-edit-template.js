@@ -1,6 +1,6 @@
 import { TYPES, CITIES} from '../const.js';
 import { formatStringToDateTime} from '../utils/event.js';
-import { firstLetterToUpperCase, firstLetterToLowerCase } from '../utils/common.js';
+import { firstLetterToUpperCase, firstLetterToLowerCase, ButtonLabel, EditType } from '../utils/common.js';
 
 function createEventTypesListTemplate(currentType) {
   return TYPES.map((type) =>
@@ -30,6 +30,13 @@ function createEventOfferTemplate(offers, checkedOffers) {
   return `<div class="event__available-offers">${offerItem}</div>`;
 }
 
+function createResetButtonTemplate(eventType) {
+  const label = eventType === EditType.CREATING
+    ? ButtonLabel.CANCEL_DEFAULT
+    : ButtonLabel.DELETE_DEFAULT;
+  return `<button class="event__reset-btn" type="reset">${label}</button>`;
+}
+
 function createEventPhotoTemplate(pictures) {
   return `
     <div class="event__photos-container">
@@ -39,7 +46,7 @@ function createEventPhotoTemplate(pictures) {
     </div>`;
 }
 
-function createEventEditTemplate({event, eventDestination, eventOffers}) {
+function createEventEditTemplate({event, eventDestination, eventOffers, eventType}) {
   const { type, offers, dateFrom, dateTo, price } = event;
   const nameDestination = (eventDestination) ? eventDestination.name : '';
   const currentOffers = eventOffers.find((offer) => offer.type === type);
@@ -73,10 +80,10 @@ function createEventEditTemplate({event, eventDestination, eventOffers}) {
 
           <div class="event__field-group  event__field-group--time">
             <label class="visually-hidden" for="event-start-time-1">From</label>
-            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${formatStringToDateTime(dateFrom)}">
+            <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateFrom ? formatStringToDateTime(dateFrom) : ''}">
             &mdash;
             <label class="visually-hidden" for="event-end-time-1">To</label>
-            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${formatStringToDateTime(dateTo)}">
+            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateTo ? formatStringToDateTime(dateTo) : ''}">
           </div>
 
           <div class="event__field-group  event__field-group--price">
@@ -84,12 +91,13 @@ function createEventEditTemplate({event, eventDestination, eventOffers}) {
               <span class="visually-hidden">Price</span>
               &euro;
             </label>
-            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price}">
+            ${createEventDestinationListTemplate()}
+            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${(price)}">
           </div>
 
-          <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-          <button class="event__reset-btn" type="reset">Delete</button>
-          <button class="event__rollup-btn" type="button">
+          <button class="event__save-btn  btn  btn--blue" type="submit">${ButtonLabel.SAVE_DEFAULT}</button>
+          ${createResetButtonTemplate(eventType)}
+          ${(eventType === EditType.EDITING) ? '<button class="event__rollup-btn" type="button">' : ''}
         </header>
         <section class="event__details">
         ${(currentOffers.offers.length !== 0) ? `<section class="event__section  event__section--offers">
