@@ -9,7 +9,7 @@ export default class EventsModel extends Observable {
   #offersModel = null;
   #events = [];
 
-  constructor(eventsApiService, destinationsModel, offersModel) {
+  constructor({eventsApiService, destinationsModel, offersModel}) {
     super();
     this.#eventsApiService = eventsApiService;
     this.#destinationsModel = destinationsModel;

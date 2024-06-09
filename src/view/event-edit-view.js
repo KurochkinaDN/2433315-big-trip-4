@@ -1,10 +1,10 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { EVENT_EMPTY } from '../const.js';
-import { createEventEditTemplate } from '../template/event-edit-template.js';
-import { EditType } from '../const.js';
+
+import { EVENT_EMPTY, EditType } from '../const.js';
+
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-
+import { createEventEditTemplate } from '../template/event-edit-template.js';
 export default class EventEditView extends AbstractStatefulView {
   #eventDestination = null;
   #eventOffers = null;
@@ -78,6 +78,7 @@ export default class EventEditView extends AbstractStatefulView {
       .addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelector('.event__input--price')
       .addEventListener('change', this.#priceChangeHandler);
+
     this.#setDatepickers();
   }
 
@@ -169,7 +170,9 @@ export default class EventEditView extends AbstractStatefulView {
   };
 
   #priceChangeHandler = (evt) => {
-
+    if (isNaN(Number(evt.target.value))) {
+      return this._state;
+    }
     this._setState({
       ...this._state,
       price: evt.target.value,
@@ -177,10 +180,18 @@ export default class EventEditView extends AbstractStatefulView {
   };
 
   static parseEventToState(event) {
-    return {...event};
+    return {...event,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false,
+    };
   }
 
   static parseStateToEvent(state) {
-    return {...state};
+    const event = {...state};
+    delete event.isDisabled;
+    delete event.isSaving;
+    delete event.isDeleting;
+    return event;
   }
 }
