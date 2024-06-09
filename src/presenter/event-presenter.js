@@ -44,9 +44,10 @@ export default class EventPresenter {
       eventDestination: this.#destinationsModel.get(),
       eventOffers: this.#offersModel.get(),
       onEditSubmit: this.#editSubmitHandler,
-      onRollupClick: this.#editorRollupClickHandler,
       onEditReset: this.#editResetHandler,
+      onRollupClick: this.#editorRollupClickHandler,
     });
+
 
     if (prevEventComponent === null || prevEventEditComponent === null) {
       render(this.#eventComponent, this.#eventListContainer.element);
@@ -57,8 +58,9 @@ export default class EventPresenter {
       replace(this.#eventComponent, prevEventComponent);
     }
 
-    if (this.#mode === Mode.DEFAULT) {
-      replace(this.#eventEditComponent, prevEventEditComponent);
+    if (this.#mode === Mode.EDITING) {
+      replace(this.#eventComponent, prevEventEditComponent);
+      this.#mode = Mode.DEFAULT;
     }
 
     remove(prevEventComponent);
@@ -67,14 +69,44 @@ export default class EventPresenter {
 
   resetView() {
     if (this.#mode !== Mode.DEFAULT) {
-      this.#replaceEditorToEvent();
       this.#eventEditComponent.reset(this.#event);
+      this.#replaceEditorToEvent();
     }
   }
 
   destroy() {
     remove(this.#eventComponent);
     remove(this.#eventEditComponent);
+  }
+
+  setSaving() {
+    if (this.#mode === Mode.EDITING) {
+      this.#eventEditComponent.updateElement({
+        isDisabled: true,
+        isSaving: true,
+      });
+    }
+  }
+
+  setDeleting() {
+    if (this.#mode === Mode.EDITING) {
+      this.#eventEditComponent.updateElement({
+        isDisabled: true,
+        isDeleting: true,
+      });
+    }
+  }
+
+  setAborting() {
+    const resetFormState = () => {
+      this.#eventEditComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#eventEditComponent.shake(resetFormState);
   }
 
   #replaceEventToEditor() {
@@ -87,41 +119,32 @@ export default class EventPresenter {
   #replaceEditorToEvent() {
     replace(this.#eventComponent, this.#eventEditComponent);
     document.removeEventListener('keydown', this.#escKeyDownHandler);
-    this.#mode = Mode.EDITING;
+    this.#mode = Mode.DEFAULT;
   }
+
+  #favoriteClickHandler = () => {
+    this.#handleDataChange(
+      UserAction.UPDATE_EVENT,
+      UpdateType.PATCH,
+      {...this.#event, isFavorite: !this.#event.isFavorite},
+    );
+  };
 
   #eventRollupClickHandler = () => {
     this.#replaceEventToEditor();
   };
 
   #editorRollupClickHandler = () => {
-    this.#replaceEditorToEvent();
     this.#eventEditComponent.reset(this.#event);
+    this.#replaceEditorToEvent();
   };
 
   #editSubmitHandler = (update) => {
     const isMinorUpdate = isBigDifference(update, this.#event);
     this.#handleDataChange(
       UserAction.UPDATE_EVENT,
-      isMinorUpdate ? UpdateType.PATCH : UpdateType.PATCH,
+      isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
       update,
-    );
-    this.#replaceEditorToEvent();
-  };
-
-  #escKeyDownHandler = (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      this.#replaceEditorToEvent();
-      this.#eventEditComponent.reset(this.#event);
-    }
-  };
-
-  #favoriteClickHandler = () => {
-    this.#handleDataChange(
-      UserAction.UPDATE_EVENT,
-      UpdateType.MINOR,
-      {...this.#event, isFavorite: !this.#event.isFavorite},
     );
   };
 
@@ -131,5 +154,13 @@ export default class EventPresenter {
       UpdateType.MINOR,
       event,
     );
+  };
+
+  #escKeyDownHandler = (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      this.#eventEditComponent.reset(this.#event);
+      this.#replaceEditorToEvent();
+    }
   };
 }

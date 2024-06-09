@@ -66,4 +66,19 @@ function isBigDifference(event1, event2) {
     || getEventDuration(event1.dateFrom, event1.dateTo) !== getEventDuration(event2.dateFrom, event2.dateTo);
 }
 
-export {getDate, formatStringToDateTime, formatStringToShortDate, formatStringToTime, getEventDuration, isEventFuture, isEventPresent, isEventPast, sortByPrice, sortByTime, isBigDifference};
+function sortByDay(event1, event2) {
+  return new Date(event1.dateFrom) - new Date(event2.dateFrom);
+}
+
+export {getDate,
+  formatStringToDateTime,
+  formatStringToShortDate,
+  formatStringToTime,
+  getEventDuration,
+  isEventFuture,
+  isEventPresent,
+  isEventPast,
+  sortByPrice,
+  sortByTime,
+  isBigDifference,
+  sortByDay};

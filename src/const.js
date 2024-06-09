@@ -4,6 +4,7 @@ const DEFAULT_TYPE = 'flight';
 const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 const TITLES = ['Add luggage', 'Switch to comfort class', 'Add meal', 'Choose seats', 'Travel by train'];
 const CITIES = ['Amsterdam', 'Chamonix', 'Paris'];
+const DESTINATION_ITEMS_LENGTH = 3;
 
 const DESCRIPTION = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -99,7 +100,34 @@ const Method = {
   POST: 'POST',
   DELETE: 'DELETE',
 };
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
 
-export {EVENT_COUNT, Mode, FilterType, DESTINATION_COUNT, DEFAULT_TYPE, TYPES, TITLES, DESCRIPTION, CITIES, Price, EVENT_EMPTY, MIN_IN_HOUR, MSEC_IN_DAY, Duration, MSEC_IN_HOUR, SortType, UpdateType, UserAction, EditType, ButtonLabel, Method};
+
+export {EVENT_COUNT,
+  Mode,
+  FilterType,
+  DESTINATION_COUNT,
+  DEFAULT_TYPE,
+  TYPES,
+  TITLES,
+  DESCRIPTION,
+  CITIES,
+  Price,
+  EVENT_EMPTY,
+  DESTINATION_ITEMS_LENGTH,
+  MIN_IN_HOUR,
+  MSEC_IN_DAY,
+  Duration,
+  MSEC_IN_HOUR,
+  SortType,
+  UpdateType,
+  UserAction,
+  EditType,
+  ButtonLabel,
+  Method,
+  TimeLimit};
 
 
