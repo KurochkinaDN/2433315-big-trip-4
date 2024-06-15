@@ -1,10 +1,9 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-
 import { EVENT_EMPTY, EditType } from '../const.js';
-
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import { createEventEditTemplate } from '../template/event-edit-template.js';
+
 export default class EventEditView extends AbstractStatefulView {
   #eventDestination = null;
   #eventOffers = null;
@@ -82,24 +81,6 @@ export default class EventEditView extends AbstractStatefulView {
     this.#setDatepickers();
   }
 
-  #dateFromCloseHandler = ([userDate]) => {
-    this._setState({
-      ...this._state,
-      dateFrom: userDate
-    });
-
-    this.#datepickerTo.set('minDate', this._state.dateFrom);
-  };
-
-  #dateToCloseHandler = ([userDate]) => {
-    this._setState({
-      ...this._state,
-      dateTo: userDate
-    });
-
-    this.#datepickerFrom.set('maxDate', this._state.dateTo);
-  };
-
   #setDatepickers() {
     const [dateFromElement, dateToElement] = this.element.querySelectorAll('.event__input--time');
     const commonConfig = {
@@ -131,6 +112,24 @@ export default class EventEditView extends AbstractStatefulView {
       },
     );
   }
+
+  #dateFromCloseHandler = ([userDate]) => {
+    this._setState({
+      ...this._state,
+      dateFrom: userDate
+    });
+
+    this.#datepickerTo.set('minDate', this._state.dateFrom);
+  };
+
+  #dateToCloseHandler = ([userDate]) => {
+    this._setState({
+      ...this._state,
+      dateTo: userDate
+    });
+
+    this.#datepickerFrom.set('maxDate', this._state.dateTo);
+  };
 
   #editSubmitHandler = (evt) => {
     evt.preventDefault();

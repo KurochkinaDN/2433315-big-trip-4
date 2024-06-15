@@ -2,7 +2,7 @@ export default class OffersModel {
   #eventsApiService = null;
   #offers = null;
 
-  constructor(eventsApiService){
+  constructor(eventsApiService) {
     this.#eventsApiService = eventsApiService;
   }
 
@@ -19,3 +19,4 @@ export default class OffersModel {
     return this.#offers.find((offer) => offer.type === type);
   }
 }
+

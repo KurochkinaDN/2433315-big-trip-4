@@ -1,8 +1,7 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { createEventTemplate } from '../template/event-template.js';
 
-
-export default class EventView extends AbstractView{
+export default class EventView extends AbstractView {
   #event = null;
   #eventDestination = null;
   #eventOffers = null;

@@ -1,6 +1,6 @@
 import NewEventButtonView from './view/new-event-view.js';
 import { render, RenderPosition } from './framework/render.js';
-import RoutePresenter from './presenter/trip-presenter.js';
+import TripPresenter from './presenter/trip-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import EventsApiService from './service/events-api-service.js';
 import DestinationsModel from './model/destinations-model.js';
@@ -8,7 +8,7 @@ import OffersModel from './model/offers-model.js';
 import EventsModel from './model/events-model.js';
 import FilterModel from './model/filter-model.js';
 
-const AUTHORIZATION = 'Basic dd89j3m2h5l';
+const AUTHORIZATION = 'Basic dd89j3m2h103';
 const END_EVENT = 'https://21.objects.htmlacademy.pro/big-trip';
 
 const tripMainContainer = document.querySelector('.trip-main');
@@ -24,14 +24,23 @@ const eventsModel = new EventsModel({
   offersModel
 });
 
-const routePresenter = new RoutePresenter({
+const newEventButtonComponent = new NewEventButtonView({
+  onClick: handleNewEventButtonClick
+});
+
+function handleNewEventClick() {
+  newEventButtonComponent.element.disabled = true;
+}
+
+const routePresenter = new TripPresenter({
   tripInfoContainer: tripMainContainer,
   tripEventsContainer,
   destinationsModel,
   offersModel,
   eventsModel,
   filterModel,
-  onNewEventDestroy: handleNewEventFormClose
+  onNewEventDestroy: handleNewEventFormClose,
+  onNewEventClick: handleNewEventClick,
 });
 
 const filterPresenter = new FilterPresenter({
@@ -40,20 +49,16 @@ const filterPresenter = new FilterPresenter({
   eventsModel
 });
 
-const newEventButtonComponent = new NewEventButtonView({
-  onClick: handleNewEventButtonClick
-});
-
 function handleNewEventFormClose() {
   newEventButtonComponent.element.disabled = false;
 }
 
 function handleNewEventButtonClick() {
   routePresenter.createEvent();
-  newEventButtonComponent.element.disabled = true;
+  handleNewEventClick();
 }
 
 render(newEventButtonComponent, tripMainContainer, RenderPosition.BEFOREEND);
-routePresenter.init();
 filterPresenter.init();
+routePresenter.init();
 eventsModel.init();
